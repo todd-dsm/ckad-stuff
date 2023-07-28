@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ReplicationController
+metadata: # metadata for the replication controller
+  name: tester-nginx-rc
+  labels:
+    name: tester-nginx-rc
+spec:
+  template:
+    metadata: # metadata for the pod
+      name: tester-nginx-pod
+      labels:
+        name: tester-nginx-label-name
+    spec:
+      containers:
+      - name: tester-nginx-container # name of container inside the pod
+        image: gcr.io/google-containers/nginx
+replicas: 3 # number of replicas/pods to create
+
+# ----------------------------------------------------------------------
+# lines 9-16 are the same as in pod.yaml
+# ---------------------------------------------------------------------------

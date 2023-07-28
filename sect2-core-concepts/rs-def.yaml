@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: tester-nginx-rs
+  labels:
+    name: tester-nginx-rs
+spec:
+  replicas: 3
+  selector: # the selector is new for the ReplicaSet; it's not in the ReplicationController
+    matchLabels:
+      name: tester-nginx-label-name
+  template:
+    metadata:
+      name: tester-nginx-pod
+      labels:
+        name: tester-nginx-label-name
+    spec:
+      containers:
+      - name: tester-nginx-container
+        image: gcr.io/google-containers/nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+# ----------------------------------------------------------------------
+# lines 14-21 are the same as in pod.yaml
+# ---------------------------------------------------------------------------
+# kubectl scale --replicas=5 rs/my-replica-set # for the test

@@ -1,0 +1,23 @@
+# ENV
+envFrom:
+  - configMapRef:
+      name: super-app-config
+
+# SINGLE ENV
+env:
+  - name: APP_NAME
+    valueFrom:
+      configMapKeyRef:
+        name: app-config
+        key: APP_NAME
+
+# VOLUME
+volumes:
+  - name: app-config-volume
+    configMap:
+      name: app-config
+      items:
+        - key: APP_NAME
+          path: app_name
+        - key: APP_DESCRIPTION
+          path: app_description
