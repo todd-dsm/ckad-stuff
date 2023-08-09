@@ -1,0 +1,21 @@
+# Set Assign SELinux labels to a Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tester-sec-context-container
+  labels:
+    name: tester-sec-context-label
+spec:
+  containers: # list/array of containers inside the pod
+  - name: tester-sec-context-container # name of container inside the pod
+    image: gcr.io/google-containers/nginx
+    securityContext:
+      seLinuxOptions:
+        level: "s0:c123,c456"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080

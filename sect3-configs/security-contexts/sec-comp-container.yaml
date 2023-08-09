@@ -1,0 +1,21 @@
+# Set a seccomp security context for a Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tester-sec-context-container
+  labels:
+    name: tester-sec-context-label
+spec:
+  containers: # list/array of containers inside the pod
+  - name: tester-sec-context-container # name of container inside the pod
+    image: gcr.io/google-containers/nginx
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080

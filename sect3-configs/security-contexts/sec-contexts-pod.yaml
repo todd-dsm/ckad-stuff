@@ -1,0 +1,23 @@
+# Set a security context for a Pod
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tester-sec-context-pod
+  labels:
+    name: tester-sec-context-label
+spec:
+  securityContext:
+    runAsUser: 1010
+    runAsGroup: 3000
+    fsGroup: 2000
+    fsGroupChangePolicy: "OnRootMismatch"
+  containers: # list/array of containers inside the pod
+  - name: tester-sec-context-container # name of container inside the pod
+    image: gcr.io/google-containers/nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080
