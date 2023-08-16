@@ -1,0 +1,39 @@
+# Impose CPU Limitations at the NAMESPACE level
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-resource-constraint
+  labels:
+    name: cpu-resource-constraint
+spec:
+  limits:
+  - default:
+      cpu: 500m
+    defaultRequest:
+      cpu: 500m
+    max:
+      cpu: "1"
+    min:
+      cpu: 100m
+    type: Container
+
+# Impose CPU Limitations at the NAMESPACE level
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: memory-resource-constraint
+  labels:
+    name: memory-resource-constraint
+spec:
+  limits:
+  - default:
+      memory: 1Gi
+    defaultRequest:
+      memory: 1Gi
+    max:
+      memory: 1Gi
+    min:
+      memory: 512Mi
+    type: Container
