@@ -17,8 +17,16 @@ spec:
         memory: "128Mi"
     ports:
       - containerPort: 8080
+  nodeSelector: # label a node with key=size and value=large for example
+    size: large
+    disktype: ssd
   tolerations:
   - key: "name"
     operator: "Equal"
     value: "tester-nginx-pod"
     effect: "NoSchedule"
+
+# ----------------------------------------------------------------------------
+# To get current object labels
+# kubectl get nodes -o jsonpath='{.items[*].metadata.labels}' | jq .
+# ----------------------------------------------------------------------------
