@@ -26,6 +26,21 @@ spec:
               operator: In
               values:
                 - large
+                - medium
+
+# Could also be expressed as:
+          - matchExpressions:
+            - key: size
+              operator: NotIn
+              values:
+                - small
+
+# Or simply verify that a node with a label exists:
+          - matchExpressions:
+            - key: size
+              operator: Exists
+# No value is required in this example
+
 
 # ----------------------------------------------------------------------------
 # To get current object labels
