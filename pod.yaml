@@ -1,0 +1,21 @@
+# Generic Pod Definition
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    name: my-pod-label
+spec:
+  containers:
+  - name: my-app
+    image: node:20-alpine
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    ports:
+      - containerPort: 8080
