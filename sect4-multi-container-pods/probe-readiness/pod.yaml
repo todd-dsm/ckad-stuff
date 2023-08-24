@@ -1,0 +1,43 @@
+# Readiness probes are configured similarly to liveness probes. The only
+# difference is that you use the readinessProbe field instead of the
+# livenessProbe field.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    name: my-pod-label
+spec:
+  containers:
+  - name: my-app
+    image: node:20-alpine
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: X-Custom-Header
+          value: Awesome
+        initialDelaySeconds: 3
+        periodSeconds: 3
+        timeoutSeconds: 1
+        failureThreshold: 3
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+  - name: gold
+    image: redis
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    ports:
+      - containerPort: 8080
