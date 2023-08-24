@@ -12,8 +12,10 @@ spec:
     livenessProbe:
       exec:
         command:
-          - cat
-          - /app/is_healthy
+        - cat
+        - /app/is_healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
     command:
       - sleep
       - "1000"

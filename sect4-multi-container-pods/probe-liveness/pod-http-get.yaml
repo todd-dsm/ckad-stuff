@@ -16,10 +16,10 @@ spec:
         httpHeaders:
         - name: X-Custom-Header
           value: Awesome
-        initialDelaySeconds: 3
-        periodSeconds: 3
-        timeoutSeconds: 1
-        failureThreshold: 3
+      initialDelaySeconds: 3
+      periodSeconds: 3
+      timeoutSeconds: 1
+      failureThreshold: 3
     resources:
       requests:
         cpu: "250m"
