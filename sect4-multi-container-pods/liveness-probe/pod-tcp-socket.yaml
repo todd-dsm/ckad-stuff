@@ -1,0 +1,36 @@
+# PATTERN: SIDECAR: >1 Containers listed in the spec.containers array
+apiVersion: v1
+kind: Pod
+metadata:
+  name: yellow
+  labels:
+    name: yello-label
+spec:
+  containers:
+  - name: my-database
+    image: postgres
+    livenessProbe:
+      tcpSocket:
+        path: /health
+        port: 5432
+    command:
+      - sleep
+      - "1000"
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+  - name: gold
+    image: redis
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    ports:
+      - containerPort: 8080

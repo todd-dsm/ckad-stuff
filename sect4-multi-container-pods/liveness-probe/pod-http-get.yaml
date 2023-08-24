@@ -1,0 +1,40 @@
+# livenessProbe: httpGet
+apiVersion: v1
+kind: Pod
+metadata:
+  name: yellow
+  labels:
+    name: yello-label
+spec:
+  containers:
+  - name: my-app
+    image: node:20-alpine
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: X-Custom-Header
+          value: Awesome
+        initialDelaySeconds: 3
+        periodSeconds: 3
+        timeoutSeconds: 1
+        failureThreshold: 3
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+  - name: gold
+    image: redis
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    ports:
+      - containerPort: 8080

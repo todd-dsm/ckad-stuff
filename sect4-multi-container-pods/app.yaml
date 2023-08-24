@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  namespace: elastic-stack
+  labels:
+    name: app
+spec:
+  containers:
+  - name: app
+    image: kodekloud/event-simulator
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    volumeMounts:
+    - mountPath: /log
+      name: log-volume
+  - name: sidecar
+    image: kodekloud/filebeat-configured
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "64Mi"
+      limits:
+        cpu: "500m"
+        memory: "128Mi"
+    volumeMounts:
+    - mountPath: /var/log/event-simulator/
+      name: log-volume
+  volumes:
+  - name: log-volume
+    hostPath:
+      path: /var/log/webapp
+      type: DirectoryOrCreate
