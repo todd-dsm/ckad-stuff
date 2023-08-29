@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+spec:
+  completions: 3  # variable; controls how many Pods are required to complete
+  parallelism: 3  # variable; controls how many Pods are run at once
+  template:
+    metadata:
+      name: my-job
+    spec:
+      containers:
+      - image: debian
+        name: my-job
+        resources: {}
+      restartPolicy: Never
+status: {}
