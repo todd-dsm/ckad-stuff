@@ -3,8 +3,9 @@ kind: Job
 metadata:
   name: my-job
 spec:
-  completions: 3  # variable; controls how many Pods are required to complete
-  parallelism: 3  # variable; controls how many Pods are run at once
+  completions:  3 # variable; controls how many Pods are required to complete
+  parallelism:  3 # variable; controls how many Pods are run at once
+  backoffLimit: 3 # variable; controls many retries before marking the job failed
   template:
     metadata:
       name: my-job
