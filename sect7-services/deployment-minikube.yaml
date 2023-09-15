@@ -1,0 +1,45 @@
+# Minikube has some limitations; use this config to get a response from the service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appname
+  labels:
+    app: appname
+    type: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: appname
+      type: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: appname
+        type: frontend
+    spec:
+      containers:
+      - image: kicbase/echo-server:latest
+        name: appname
+        resources:
+          limits:
+            cpu: 750m
+            memory: 170Mi
+          requests:
+            cpu: 750m
+            memory: 170Mi
+
+# --------------------------------------------------------------------------
+# The configs were created like:
+# kubectl create deployment appname --image=kicbase/echo-server:1.0
+#   --dry-run=client -o yaml > deployment-minikube.yaml
+# kubectl expose deployment appname --type=NodePort --port=8080 \
+#   --dry-run=client -o yaml > nodeport.yaml
+# DOCS: https://minikube.sigs.k8s.io/docs/handbook/accessing/
+# --------------------------------------------------------------------------

@@ -1,0 +1,30 @@
+# This should work in a full-blown Kubernetes cluster
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appname
+  labels:
+    app: appname
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: appname
+  template:
+    metadata:
+      labels:
+        app: appname
+    spec:
+      containers:
+      - name: appname
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: "750m"
+            memory: "170Mi"
+          limits:
+            cpu: "750m"
+            memory: "170Mi"
+        ports:
+        - containerPort: 8080
