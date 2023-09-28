@@ -1,0 +1,66 @@
+# A Headless Service is used to front a StatefulSet with a common DNS name.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-ha-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mysql-ha
+  ports:
+  - port: 3306
+  clusterIP: None
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    name: myapp-pod
+    app: mysql-ha
+spec:
+  containers:
+    - name: mysql
+      image:  mysql
+      resources:
+        limits:
+          cpu: 750m
+          memory: 170Mi
+        requests:
+          cpu: 750m
+          memory: 170Mi
+  subdomain: mysql-ha-service # matches service name above
+  hostname: mysql-ha-pod
+---
+# -------------------------------------------------------------------------- #
+# Add the above Pod content (from 'metadata' downward) to the Deployment
+# template section.
+# -------------------------------------------------------------------------- #
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appname-deployment
+spec:
+  selector:
+    matchLabels:
+      app: appname
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        name: myapp-pod
+        app: mysql-ha
+    spec:
+      containers:
+        - name: mysql
+          image:  mysql
+          resources:
+            limits:
+              cpu: 750m
+              memory: 170Mi
+            requests:
+              cpu: 750m
+              memory: 170Mi
+      subdomain: mysql-ha-service # matches service name above
+      hostname: mysql-ha-pod # required to add an A record to DNS

@@ -1,0 +1,18 @@
+# Claims as Volumes
+# REF: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+---
+kubernetes apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc-pv-vol-001
+spec:
+  resources:
+    requests:
+      storage: 500Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+
+# --------------------------------------------------------------------------------------- #
+# THIS SHOULD BE DONE SPARINGLY. DATA GOES IN DATABASES.
+# --------------------------------------------------------------------------------------- #

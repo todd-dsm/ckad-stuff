@@ -1,0 +1,46 @@
+# Create a Role for a class of users: developers
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["ConfigMap"]
+  verbs: ["create"]
+# ----------------------------------------------------------------------------
+# Link a user object to a Role
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer
+subjects: # user details
+  - kind: User
+    name: dev-user
+    apiGroup: rbac.authorization.k8s.io
+roleRef: # role association with the user
+  kind: Role
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+
+# ----------------------------------------------------------------------------
+# This will create the Role and bind it to a user ('dev-user').
+# if no namespace is configured, the role will only apply to the 'default'
+# namespace. If another NS is required, name it in the metadata section.
+# ----------------------------------------------------------------------------
+# Test with the 'auth can-i' sub-command; example:
+# % kubectl auth can-i create deployments
+# yes
+# % kubectl auth can-i delete nodes
+# no
+# Impersonate the target user/group: dev-user
+# % kubectl auth can-i create pods --as dev-user
+# yes
+
+# ----------------------------------------------------------------------------
+# Determine the autorization mode in use:
+#`kubectl exec -it kube-apiserver-minikube -n kube-system -- ps -aux | grep authorization-mode`

@@ -1,0 +1,25 @@
+kubernetes apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-vol-001
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: slow
+
+# Options: NFS
+#   mountOptions:
+#     - hard
+#     - nfsvers=4.1
+#   nfs:
+#     path: /tmp
+#     server: 172.17.0.2
+#
+# EBS (AWS Elastic Block Store)
+# awsElasticBlockStore:
+#   volumeID: <volume-id>
+#   fsType: ext4
